@@ -22,9 +22,18 @@ jobs:
           php-version: '8.2' # Or your preferred PHP version
 
       - name: Install Dependencies
-        run: composer install --optimize-autoloader
+        run: |
+          composer install --optimize-autoloader
+          composer dump-autoload
+
+      - name: Check Environment
+        run: |
+          php -v
+          composer --version
+          php artisan --version
 
       - name: Run Pest Tests
         run: |
           php artisan config:clear
-          php artisan test --pest --verbose --no-interaction
+          php artisan cache:clear
+          ./vendor/bin/pest --verbose
