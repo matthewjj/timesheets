@@ -1,0 +1,25 @@
+name: Laravel CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: actions/setup-php@v5
+        with:
+          php-version: '8.2' # Or your preferred PHP version
+
+      - name: Install Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Run Pest Tests
+        run: php artisan test --pest --no-interaction
